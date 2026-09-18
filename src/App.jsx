@@ -1,13 +1,16 @@
-import ProfileCard from "./ProfileCard";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Main from "./components/Main";
+import Footer from "./components/Footer";
 
-function App(){
+function App (){
   return(
     <div>
-      <h1>Hello React </h1>
-      
-      <ProfileCard/>
+      <Header/>
+      <Sidebar/>
+      <Main/>
+      <Footer/>
     </div>
   );
 }
-
 export default App;
