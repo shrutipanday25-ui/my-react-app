@@ -1,16 +1,18 @@
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
+import Dashboard from "./Dashboard";
 
-function App (){
-  return(
-    <div>
-      <Header/>
-      <Sidebar/>
-      <Main/>
-      <Footer/>
-    </div>
-  );
+function App(){
+  
+    return(
+<div>
+  <h1> Dashboard</h1>
+
+  <Dashboard
+  isLoogedIn={true}
+  isAdmin={true}
+  hasError={false}
+  />
+</div>
+    )
+
 }
 export default App;
