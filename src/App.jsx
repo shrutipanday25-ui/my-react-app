@@ -1,18 +1,41 @@
-import Dashboard from "./Dashboard";
+import ProductCard from "./ProductCard";
 
 function App(){
+  const product=[
+    {id:101,
+      name:"Wireless Mouse",
+      price: 29.99,
+       inStock:true,
+    },
+    {  
+    id : 102,
+    name :"Mechincal Keyboard",
+    price : 89.99,
+    inStock:false ,
+    },
+    {
+      id:103,
+      name:"USB-C Hub",
+      price:45.00,
+      inStock:true,
+    }
+  ];
+
+  return(
+    <div>
+      <h1>Product</h1>
+      {product.map((product)=>
+      <div key = {product.id}>
+        <ProductCard
+        name = {product.name}
+        price={product.price}
+        />
+        {!product.inStock && <p>Sold Out</p>}
+      </div>
+    )}
+    </div>
+  );
+
   
-    return(
-<div>
-  <h1> Dashboard</h1>
-
-  <Dashboard
-  isLoogedIn={true}
-  isAdmin={true}
-  hasError={false}
-  />
-</div>
-    )
-
 }
 export default App;
