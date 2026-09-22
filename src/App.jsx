@@ -1,41 +1,35 @@
-import ProductCard from "./ProductCard";
+import JobBoard from "./JobBoard";
 
-function App(){
-  const product=[
-    {id:101,
-      name:"Wireless Mouse",
-      price: 29.99,
-       inStock:true,
-    },
-    {  
-    id : 102,
-    name :"Mechincal Keyboard",
-    price : 89.99,
-    inStock:false ,
+function App() {
+  const jobs = [
+    {
+      id: 1,
+      title: "Frontend Dev",
+      company: "TechCorp",
+      location: "Remote",
+      isNew: true,
     },
     {
-      id:103,
-      name:"USB-C Hub",
-      price:45.00,
-      inStock:true,
-    }
+      id: 2,
+      title: "Frontend Developer",
+      company: "CodeTech",
+      location: "Pune",
+      isNew: false,
+    },
+    {
+      id: 3,
+      title: "React Developer",
+      company: "Wassha",
+      location: "Remote",
+      isNew: true,
+    },
   ];
 
-  return(
+  return (
     <div>
-      <h1>Product</h1>
-      {product.map((product)=>
-      <div key = {product.id}>
-        <ProductCard
-        name = {product.name}
-        price={product.price}
-        />
-        {!product.inStock && <p>Sold Out</p>}
-      </div>
-    )}
+      <JobBoard jobs={jobs} />
     </div>
   );
-
-  
 }
+
 export default App;
