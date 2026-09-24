@@ -1,9 +1,7 @@
-import InteractiveForm from "./InteractiveForm"
+import MainLayout from "./MainLayout"
 function App (){
   return(
-    <div>
-      <InteractiveForm/>
-    </div>
+    <MainLayout/>
   );
 
 }
