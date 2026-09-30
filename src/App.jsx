@@ -1,39 +1,37 @@
-import {useState} from "react";
-function  App(){
-  const [count,setCount]=useState(0);
-  const[isDarkMode,setIsDarkMode]=useState(false);
+import {useRef,useEffect,useState,} from "react";
+function App(){
+  const[seconds,setSeconds]=useState(0);
+  const timerRef=useRef(null)
 
-  function Increase(){
-    setCount(prev=>prev+1);
-  }
-  function Decrease(){
-    setCount(prev=>prev-1);
-  }
-  function Reset(){
-    setCount (0);
-  }
-  function Toggletheme(){
-    setIsDarkMode(prev=>!prev);
-  }
-return(
-  <div 
-  style={{
-    backgroundColor: isDarkMode ? "darkgray" : "white",
-        color: isDarkMode ? "white" : "black",
-        minHeight: "100vh",
-        padding: "30px"
-  }}>
-    <h1>Counter App</h1>
-    <h2> Count:{count}</h2>
-    <button onClick={Increase}>+</button>
-    <button onClick={Decrease}>-</button>
-    <button onClick={Reset}>Reset</button>
-    <br/>
-    <br/>
-    <button onClick={Toggletheme}> Change Theme</button>
+  const StartTimer =()=>{
+    if (timerRef.current===null){
+      timerRef.current=setInterval (()=>{
+  setSeconds(prev=>prev+1);
+      },1000);
 
-  </div>
- 
-);
+    }
+  }
+  const StopTimer=()=>{
+    clearInterval(timerRef.current);
+    timerRef.current=null;
+  }
+  const ResetTimer=()=>{
+    StopTimer();
+    setSeconds(0);
+  };
+  useEffect(()=>{
+    return()=>{
+      clearInterval(timerRef.current);
+    };
+  },[]);
+  return(
+    <>
+    <h1>{seconds}</h1>
+    <button onClick={StartTimer}>Start</button>
+    <button onClick={StopTimer}>Stop</button>
+    <button onClick={ResetTimer}>Reset</button>
+    </>
+  );
 }
 export default App;
+  
