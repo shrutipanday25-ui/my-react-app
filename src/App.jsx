@@ -1,49 +1,23 @@
-import { Routes, Route, Link, Outlet } from "react-router-dom";
-
-function DashboardLayout() {
+function Child({ title, description }) {
   return (
     <div>
-      <h1>Dashboard</h1>
-
-      <div>
-        <nav>
-          <Link to="/dashboard">Home</Link>
-          <br />
-          <Link to="/dashboard/settings">Settings</Link>
-          <br />
-          <Link to="/dashboard/analytics">Analytics</Link>
-        </nav>
-
-        <main>
-          <Outlet />
-        </main>
-      </div>
+      <h2>{title}</h2>
+      <p>{description.toUpperCase()}</p>
     </div>
   );
 }
 
-function DashboardHome() {
-  return <h2>Dashboard Home</h2>;
-}
-
-function Settings() {
-  return <h2>Settings</h2>;
-}
-
-function Analytics() {
-  return <h2>Analytics</h2>;
+function Parent() {
+  return (
+    <Child
+      title="Hello World"
+      description="This is a description"
+    />
+  );
 }
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/dashboard" element={<DashboardLayout />}>
-        <Route index element={<DashboardHome />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="analytics" element={<Analytics />} />
-      </Route>
-    </Routes>
-  );
+  return <Parent />;
 }
 
 export default App;
