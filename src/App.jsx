@@ -1,46 +1,49 @@
-import {Routes,Route,Link,useParams} from "react-router-dom";
-const users = [
-  {id: 1, name:"Alice"},
-  {id: 2, name: "Bob"}
-];
+import { Routes, Route, Link, Outlet } from "react-router-dom";
 
-function Directory(){
-  return(
-    <div>
-      <h1> User Directory</h1>
-
-      {users.map((user)=>(
-        <div key={user.id}>
-          <Link to={`/users/${user.id}`}>
-          {user.name}
-          </Link>
-          </div>
-      ))}
-      </div>
-  );
-}
-
-      function UserProfile() {
-  const { id } = useParams();
-
-  const user = users.find((user) => user.id === Number(id));
-
+function DashboardLayout() {
   return (
     <div>
-      <h1>User Profile</h1>
-      <p>User ID: {id}</p>
-      <p>User Name: {user.name}</p>
+      <h1>Dashboard</h1>
+
+      <div>
+        <nav>
+          <Link to="/dashboard">Home</Link>
+          <br />
+          <Link to="/dashboard/settings">Settings</Link>
+          <br />
+          <Link to="/dashboard/analytics">Analytics</Link>
+        </nav>
+
+        <main>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
-function App(){
+
+function DashboardHome() {
+  return <h2>Dashboard Home</h2>;
+}
+
+function Settings() {
+  return <h2>Settings</h2>;
+}
+
+function Analytics() {
+  return <h2>Analytics</h2>;
+}
+
+function App() {
   return (
     <Routes>
-      <Route path="/" element={<Directory/>}/>
-      <Route path="/users/:id"element={<UserProfile/>}/>
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route index element={<DashboardHome />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="analytics" element={<Analytics />} />
+      </Route>
     </Routes>
   );
 }
-  
-export default App;
 
+export default App;
