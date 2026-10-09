@@ -5,67 +5,54 @@ import {
   Route,
   Link,
   Navigate,
+  Outlet,
+  useParams,
   useNavigate,
 } from "react-router-dom";
 
-function LoginForm({ setIsAuthenticated }) {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+const initialRecipes = [
+  {
+    id: "1",
+    title: "Veg Sandwich",
+    ingredients: ["Bread", "Tomato", "Cucumber", "Butter"],
+    instructions: "Spread butter on bread. Add vegetables and serve.",
+  },
+  {
+    id: "2",
+    title: "Pasta",
+    ingredients: ["Pasta", "Tomato Sauce", "Salt", "Cheese"],
+    instructions: "Boil pasta, add sauce and salt, then add cheese.",
+  },
+  {
+    id: "3",
+    title: "Fruit Salad",
+    ingredients: ["Apple", "Banana", "Grapes", "Orange"],
+    instructions: "Cut all fruits into small pieces and mix them.",
+  },
+];
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    setLoading(true);
-
-    setTimeout(() => {
-      setIsAuthenticated(true);
-      navigate("/dashboard");
-    }, 2000);
-  }
-
+function MainLayout({ isLoggedIn, setIsLoggedIn }) {
   return (
     <div>
-      <h1>Login Page</h1>
+      <h1>My Recipe Book</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter username"
-          required
-        />
+      <nav>
+        <Link to="/">Home</Link> |{" "}
+        <Link to="/recipes">Browse Recipes</Link> |{" "}
+        <Link to="/favorites">My Favorites</Link>{" "}
 
-        <br />
-        <br />
-
-        <input
-          type="password"
-          placeholder="Enter password"
-          required
-        />
-
-        <br />
-        <br />
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Submit"}
+        <button onClick={() => setIsLoggedIn(!isLoggedIn)}>
+          {isLoggedIn ? "Logout" : "Login"}
         </button>
-      </form>
-    </div>
-  );
-}
+      </nav>
 
-function ProtectedRoute({ isAuthenticated, children }) {
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
+      <hr />
 
-  return children;
-}
+      <p>
+        Status: {isLoggedIn ? "Logged In" : "Logged Out"}
+      </p>
 
-function Dashboard() {
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Welcome! You have successfully logged in.</p>
+      <Outlet />
     </div>
   );
 }
@@ -73,43 +60,144 @@ function Dashboard() {
 function Home() {
   return (
     <div>
-      <h1>Home Page</h1>
-      <Link to="/login">Go to Login</Link>
+      <h2>Welcome to My Recipe Book!</h2>
+      <p>Discover simple and delicious recipes.</p>
+      <Link to="/recipes">Explore Recipes</Link>
+    </div>
+  );
+}
+
+function RecipeList({ recipes }) {
+  return (
+    <div>
+      <h2>Browse Recipes</h2>
+
+      {recipes.length === 0 ? (
+        <p>No recipes available.</p>
+      ) : (
+        <ul>
+          {recipes.map((recipe) => (
+            <li key={recipe.id}>
+              <Link to={`/recipes/${recipe.id}`}>
+                {recipe.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function RecipeDetails({ recipes, deleteRecipe }) {
+  const { recipeId } = useParams();
+  const navigate = useNavigate();
+
+  const recipe = recipes.find((item) => item.id === recipeId);
+
+  if (!recipe) {
+    return (
+      <div>
+        <h2>Recipe not found</h2>
+        <Link to="/recipes">Back to Recipes</Link>
+      </div>
+    );
+  }
+
+  function handleDelete() {
+    deleteRecipe(recipe.id);
+    navigate("/recipes");
+  }
+
+  return (
+    <div>
+      <h2>{recipe.title}</h2>
+
+      <h3>Ingredients</h3>
+      <ul>
+        {recipe.ingredients.map((ingredient, index) => (
+          <li key={index}>{ingredient}</li>
+        ))}
+      </ul>
+
+      <h3>Instructions</h3>
+      <p>{recipe.instructions}</p>
+
+      <button onClick={handleDelete}>Delete Recipe</button>
+
+      <br />
+      <br />
+
+      <Link to="/recipes">Back to Recipes</Link>
+    </div>
+  );
+}
+
+function ProtectedRoute({ isLoggedIn, children }) {
+  if (!isLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
+
+function Favorites() {
+  return (
+    <div>
+      <h2>My Favorites</h2>
+      <p>Welcome! You can access your favorites page.</p>
+      <p>Your favorite recipes will appear here.</p>
     </div>
   );
 }
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [recipes, setRecipes] = useState(initialRecipes);
+
+  function deleteRecipe(id) {
+    setRecipes((currentRecipes) =>
+      currentRecipes.filter((recipe) => recipe.id !== id)
+    );
+  }
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-
       <Route
-        path="/login"
+        path="/"
         element={
-          <LoginForm
-            setIsAuthenticated={setIsAuthenticated}
+          <MainLayout
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
           />
         }
-      />
+      >
+        <Route index element={<Home />} />
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute
-            isAuthenticated={isAuthenticated}
-          >
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="recipes"
+          element={<RecipeList recipes={recipes} />}
+        />
 
-      <Route
-        path="*"
-        element={<Navigate to="/" replace />}
-      />
+        <Route
+          path="recipes/:recipeId"
+          element={
+            <RecipeDetails
+              recipes={recipes}
+              deleteRecipe={deleteRecipe}
+            />
+          }
+        />
+
+        <Route
+          path="favorites"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Favorites />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
     </Routes>
   );
 }
