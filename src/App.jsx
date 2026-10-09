@@ -1,73 +1,90 @@
 import { useState } from "react";
 
-function App() {
-  const [cart, setCart] = useState([]);
+function RegistrationForm() {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-  function addItem() {
-    const newItem = {
-      id: Date.now(),
-      name: "Apple",
-      qty: 1,
-    };
+  function handleChange(e) {
+    const { name, value } = e.target;
 
-    setCart([...cart, newItem]);
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   }
 
-  function removeItem(id) {
-    setCart(cart.filter((item) => item.id !== id));
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(formData);
   }
 
-  function increaseQty(id) {
-    setCart(
-      cart.map((item) =>
-        item.id === id
-          ? { ...item, qty: item.qty + 1 }
-          : item
-      )
-    );
-  }
+  const isPasswordInvalid =
+    formData.password.length < 8;
 
-  function clearCart() {
-    setCart([]);
-  }
-
-  const totalItems = cart.reduce(
-    (total, item) => total + item.qty,
-    0
-  );
+  const isFormInvalid =
+    formData.username.trim() === "" ||
+    formData.email.trim() === "" ||
+    isPasswordInvalid;
 
   return (
     <div>
-      <h1>Shopping Cart</h1>
+      <h1>Registration Form</h1>
 
-      <button onClick={addItem}>Add Item</button>
-      <button onClick={clearCart}>Clear Cart</button>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            placeholder="Enter username"
+          />
+        </div>
 
-      <h2>Cart Items</h2>
+        <br />
 
-      {cart.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <ul>
-          {cart.map((item) => (
-            <li key={item.id}>
-              {item.name} - Quantity: {item.qty}{" "}
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Enter email"
+          />
+        </div>
 
-              <button onClick={() => increaseQty(item.id)}>
-                +1 Qty
-              </button>
+        <br />
 
-              <button onClick={() => removeItem(item.id)}>
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Enter password"
+          />
 
-      <h3>Total Items: {totalItems}</h3>
-    </div>
-  );
-}
+          {formData.password.length>0&&
+          isPasswordInvalid &&(
+            <p style={{color: "red"}}>
+              Password must be at least 8 characters
+            </p>
+          )}
+          </div>
 
-export default App;
+          <br/>
+          <button type="submit"disabled={isFormInvalid}>
+            Submit
+          </button>
+          </form>
+          </div>
+          );
+          }
+
+          export default RegistrationForm;
