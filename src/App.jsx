@@ -1,90 +1,84 @@
+
 import { useState } from "react";
+import "./App.css";
 
-function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+function SearchBar({ searchQuery, setSearchQuery }) {
+  return (
+    <input
+      type="text"
+      placeholder="Search users..."
+      value={searchQuery}
+      onChange={(event) => setSearchQuery(event.target.value)}
+      className="search-input"
+    />
+  );
+}
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(formData);
-  }
-
-  const isPasswordInvalid =
-    formData.password.length < 8;
-
-  const isFormInvalid =
-    formData.username.trim() === "" ||
-    formData.email.trim() === "" ||
-    isPasswordInvalid;
+function DataList({ data, searchQuery }) {
+  const filteredData = data.filter((user) =>
+    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div>
-      <h1>Registration Form</h1>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Enter username"
-          />
-        </div>
-
-        <br />
-
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter email"
-          />
-        </div>
-
-        <br />
-
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter password"
-          />
-
-          {formData.password.length>0&&
-          isPasswordInvalid &&(
-            <p style={{color: "red"}}>
-              Password must be at least 8 characters
-            </p>
-          )}
+      {filteredData.length > 0 ? (
+        filteredData.map((user) => (
+          <div className="user-card" key={user.id}>
+            <h3>{user.name}</h3>
+            <p>{user.email}</p>
           </div>
+        ))
+      ) : (
+        <p>No users found.</p>
+      )}
+    </div>
+  );
+}
 
-          <br/>
-          <button type="submit"disabled={isFormInvalid}>
-            Submit
-          </button>
-          </form>
-          </div>
-          );
-          }
+function Stats({ filteredData, totalItems }) {
+  return (
+    <p className="stats">
+      Showing {filteredData.length} of {totalItems} total items
+    </p>
+  );
+}
 
-          export default RegistrationForm;
+function Dashboard() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const users = [
+    { id: 1, name: "Shruti Pandey", email: "shruti@example.com" },
+    { id: 2, name: "Anjali Verma", email: "anjali@example.com" },
+    { id: 3, name: "Riya Sharma", email: "riya@example.com" },
+    { id: 4, name: "Priya Singh", email: "priya@example.com" },
+    { id: 5, name: "Neha Kumari", email: "neha@example.com" },
+  ];
+
+  const filteredData = users.filter((user) =>
+    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="dashboard">
+      <h1>Interactive Dashboard</h1>
+
+      <SearchBar
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
+
+      <Stats
+        filteredData={filteredData}
+        totalItems={users.length}
+      />
+
+      <DataList data={users} searchQuery={searchQuery} />
+    </div>
+  );
+}
+
+function App() {
+  return <Dashboard />;
+}
+
+export default App;

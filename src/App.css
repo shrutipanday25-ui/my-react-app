@@ -1,4 +1,45 @@
-.active{
-    color:blue;
-    font-weight:bold
+
+.dashboard {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 25px;
+  font-family: Arial, sans-serif;
+  color: #24332b;
+}
+
+.dashboard h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.stats {
+  color: #176b50;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.user-card {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: white;
+}
+
+.user-card h3 {
+  margin: 0 0 8px;
+}
+
+.user-card p {
+  margin: 0;
+  color: #666;
 }
