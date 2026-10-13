@@ -1,38 +1,55 @@
 
 import { useState, useEffect } from "react";
 
-function DocumentTitleSync() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("");
+function UserList() {
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    document.title = `Count is ${count}`;
-    console.log("Effect ran!");
-  }, [count]);
+    async function fetchUsers() {
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+
+        const data = await response.json();
+        setUsers(data);
+      } catch (err) {
+        setError("Users load nahi ho paaye. Internet check karo.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchUsers();
+  }, []);
+
+  if (isLoading) {
+    return <h2>Loading users...</h2>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div>
-      <h1>Side Effects & Dependency Arrays</h1>
+      <h1>User List</h1>
 
-      <h2>Count: {count}</h2>
-
-      <button onClick={() => setCount(count + 1)}>
-        Increase Count
-      </button>
-
-      <br />
-      <br />
-
-      <input
-        type="text"
-        placeholder="Enter your name"
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-      />
-
-      <p>Name: {name}</p>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            <strong>{user.name}</strong> — {user.email}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-export default DocumentTitleSync;
+export default UserList;
