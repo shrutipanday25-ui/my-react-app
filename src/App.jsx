@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 function UserList() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchUsers() {
       try {
         const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users"
+          "https://jsonplaceholder.typicode.com/usersBAD"
         );
 
         if (!response.ok) {
@@ -20,7 +20,7 @@ function UserList() {
         const data = await response.json();
         setUsers(data);
       } catch (err) {
-        setError("Users load nahi ho paaye. Internet check karo.");
+        setError(err.message);
       } finally {
         setIsLoading(false);
       }
@@ -30,11 +30,15 @@ function UserList() {
   }, []);
 
   if (isLoading) {
-    return <h2>Loading users...</h2>;
+    return <p>Loading users...</p>;
   }
 
-  if (error) {
-    return <p>{error}</p>;
+  if (error !== null) {
+    return (
+      <p style={{ color: "red" }}>
+        {error}
+      </p>
+    );
   }
 
   return (
