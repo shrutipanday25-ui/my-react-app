@@ -1,7 +1,15 @@
-import WeatherDashboard from "./WeatherDashboard";
+import { CartProvider } from "./CartContext";
+import ProductList from "./ProductList";
+import CartDisplay from "./CartDisplay";
 
 function App() {
-  return <WeatherDashboard />;
+  return (
+    <CartProvider>
+      <h1>Shopping Cart App</h1>
+      <ProductList />
+      <CartDisplay />
+    </CartProvider>
+  );
 }
 
 export default App;
