@@ -11,6 +11,8 @@ body {
 }
 
 .app-container {
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 24px;
 }
 
@@ -19,49 +21,13 @@ body {
   margin-bottom: 30px;
 }
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  align-items: start;
-}
-
-.dashboard-card {
-  min-width: 0;
-  padding: 20px;
+.post-form,
+.posts-section {
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px #00000012;
-  overflow-wrap: anywhere;
-}
-
-.dashboard-card h2 {
-  margin-top: 0;
-}
-
-.dashboard-card p {
-  line-height: 1.5;
-}
-
-.section-divider {
-  margin: 36px 0;
-  border: 0;
-  border-top: 1px solid #ddd;
-}
-
-.post-form {
-  width: 100%;
-  max-width: 520px;
-  margin: 30px auto;
   padding: 24px;
-  background: white;
+  margin-bottom: 24px;
   border-radius: 10px;
   box-shadow: 0 2px 8px #00000012;
-}
-
-.post-form h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
 }
 
 .post-form form {
@@ -71,13 +37,11 @@ body {
 }
 
 .post-form label {
-  display: block;
   font-weight: bold;
 }
 
 .post-form input,
 .post-form textarea {
-  display: block;
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -90,16 +54,8 @@ body {
   resize: vertical;
 }
 
-.post-form input:focus,
-.post-form textarea:focus {
-  outline: 2px solid #93c5fd;
-  border-color: #2563eb;
-}
-
 .post-form button {
-  width: 100%;
   padding: 12px;
-  margin-top: 8px;
   border: none;
   border-radius: 6px;
   background: #2563eb;
@@ -113,6 +69,27 @@ body {
   cursor: not-allowed;
 }
 
+.post-card {
+  padding: 16px;
+  margin-bottom: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.post-card h3 {
+  margin-top: 0;
+  text-transform: capitalize;
+}
+
+.post-card p {
+  line-height: 1.6;
+}
+
+.post-card small {
+  color: #666;
+}
+
 .success-message {
   color: #15803d;
   font-weight: bold;
@@ -123,12 +100,18 @@ body {
   font-weight: bold;
 }
 
-@media (max-width: 700px) {
+.status-message {
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 600px) {
   .app-container {
     padding: 14px;
   }
 
-  .dashboard-grid {
-    grid-template-columns: 1fr;
+  .post-form,
+  .posts-section {
+    padding: 16px;
   }
 }

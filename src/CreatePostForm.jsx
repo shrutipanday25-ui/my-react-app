@@ -1,12 +1,17 @@
 
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query'
 
 function CreatePostForm() {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
-  const [successMessage, setSuccessMessage] = useState('')
+  const [message, setMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: async (newPost) => {
@@ -29,9 +34,11 @@ function CreatePostForm() {
     },
 
     onSuccess: (data) => {
-      setSuccessMessage(
-        `Post created successfully! Post ID: ${data.id}`
-      )
+      queryClient.invalidateQueries({
+        queryKey: ['posts'],
+      })
+
+      setMessage(`Post created successfully! ID: ${data.id}`)
       setErrorMessage('')
       setTitle('')
       setBody('')
@@ -39,18 +46,14 @@ function CreatePostForm() {
     },
 
     onError: () => {
-      setErrorMessage(
-        'Failed to create post. Please try again.'
-      )
-      setSuccessMessage('')
+      setErrorMessage('Failed to create post. Please try again.')
+      setMessage('')
     },
   })
 
-  const { isPending } = mutation
-
   function handleSubmit(event) {
     event.preventDefault()
-    setSuccessMessage('')
+    setMessage('')
     setErrorMessage('')
 
     mutation.mutate({
@@ -61,12 +64,11 @@ function CreatePostForm() {
   }
 
   return (
-    <div className="post-form">
-      <h2>Create Post</h2>
+    <section className="post-form">
+      <h2>Create a New Post</h2>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
-
         <input
           id="title"
           type="text"
@@ -77,29 +79,23 @@ function CreatePostForm() {
         />
 
         <label htmlFor="body">Body</label>
-
         <textarea
           id="body"
           placeholder="Write your post here"
           value={body}
           onChange={(event) => setBody(event.target.value)}
-          rows={5}
+          rows={4}
           required
         />
 
-        <button type="submit" disabled={isPending}>
-          {isPending ? 'Creating...' : 'Create Post'}
+        <button type="submit" disabled={mutation.isPending}>
+          {mutation.isPending ? 'Creating...' : 'Create Post'}
         </button>
       </form>
 
-      {successMessage && (
-        <p className="success-message">{successMessage}</p>
-      )}
-
-      {errorMessage && (
-        <p className="error-message">{errorMessage}</p>
-      )}
-    </div>
+      {message && <p className="success-message">{message}</p>}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+    </section>
   )
 }
 

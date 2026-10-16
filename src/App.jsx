@@ -1,11 +1,15 @@
+
 import CreatePostForm from './CreatePostForm'
+import PostList from './PostList'
 
 function App() {
   return (
-    <div className="app-container">
-      <h1>Day 43: Modifying Server Data</h1>
+    <main className="app-container">
+      <h1>Day 44: Query Invalidation & Refetching</h1>
+
       <CreatePostForm />
-    </div>
+      <PostList />
+    </main>
   )
 }
 
