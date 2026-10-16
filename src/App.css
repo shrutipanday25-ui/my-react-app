@@ -1,45 +1,44 @@
 
-.dashboard {
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 25px;
-  font-family: Arial, sans-serif;
-  color: #24332b;
-}
-
-.dashboard h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
-.search-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  margin-bottom: 15px;
-}
-
-.stats {
-  color: #176b50;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.user-card {
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  background: white;
-}
-
-.user-card h3 {
-  margin: 0 0 8px;
-}
-
-.user-card p {
+body {
   margin: 0;
-  color: #666;
+  background-color: #f3f4f6;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+h1 {
+  color: #1d4ed8;
+}
+
+button {
+  padding: 10px 16px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.post {
+  margin: 12px 0;
+  padding: 14px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.post h3 {
+  margin-top: 0;
+  text-transform: capitalize;
 }

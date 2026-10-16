@@ -1,15 +1,18 @@
-import { CartProvider } from "./CartContext";
-import ProductList from "./ProductList";
-import CartDisplay from "./CartDisplay";
+
+import CryptoTracker from './CryptoTracker.jsx'
 
 function App() {
   return (
-    <CartProvider>
-      <h1>Shopping Cart App</h1>
-      <ProductList />
-      <CartDisplay />
-    </CartProvider>
-  );
+    <div style={{ padding: '30px', fontFamily: 'Arial' }}>
+      <h1>Day 41: Background Fetching & Polling</h1>
+
+      <p>
+        Track Bitcoin prices with automatic updates every 10 seconds.
+      </p>
+
+      <CryptoTracker />
+    </div>
+  )
 }
 
-export default App;
+export default App
