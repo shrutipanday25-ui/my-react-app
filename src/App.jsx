@@ -5,7 +5,7 @@ import PostList from './PostList'
 function App() {
   return (
     <main className="app-container">
-      <h1>Day 44: Query Invalidation & Refetching</h1>
+      <h1>Day 45: Optimistic UI Updates</h1>
 
       <CreatePostForm />
       <PostList />

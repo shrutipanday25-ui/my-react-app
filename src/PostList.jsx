@@ -1,5 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query'
+import LikeButton from './LikeButton'
 
 function PostList() {
   const {
@@ -27,22 +28,23 @@ function PostList() {
   }
 
   if (isError) {
-    return (
-      <p className="error-message">
-        Error: {error.message}
-      </p>
-    )
+    return <p className="error-message">Error: {error.message}</p>
   }
 
   return (
     <section className="posts-section">
       <h2>Posts List</h2>
 
-      {posts.map((post) => (
+      {posts.slice(0, 10).map((post) => (
         <article className="post-card" key={post.id}>
           <h3>{post.title}</h3>
           <p>{post.body}</p>
           <small>Post ID: {post.id}</small>
+
+          <LikeButton
+            postId={post.id}
+            initialLikeCount={0}
+          />
         </article>
       ))}
     </section>
