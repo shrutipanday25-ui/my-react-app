@@ -1,44 +1,134 @@
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  background-color: #f3f4f6;
-  color: #1f2937;
   font-family: Arial, sans-serif;
+  background: #f3f4f6;
+  color: #222;
 }
 
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 30px 20px;
+.app-container {
+  padding: 24px;
 }
 
-h1 {
-  color: #1d4ed8;
+.app-container > h1 {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-button {
-  padding: 10px 16px;
-  margin: 10px 0;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.dashboard-card {
+  min-width: 0;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #00000012;
+  overflow-wrap: anywhere;
+}
+
+.dashboard-card h2 {
+  margin-top: 0;
+}
+
+.dashboard-card p {
+  line-height: 1.5;
+}
+
+.section-divider {
+  margin: 36px 0;
+  border: 0;
+  border-top: 1px solid #ddd;
+}
+
+.post-form {
+  width: 100%;
+  max-width: 520px;
+  margin: 30px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #00000012;
+}
+
+.post-form h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.post-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.post-form label {
+  display: block;
+  font-weight: bold;
+}
+
+.post-form input,
+.post-form textarea {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.post-form textarea {
+  resize: vertical;
+}
+
+.post-form input:focus,
+.post-form textarea:focus {
+  outline: 2px solid #93c5fd;
+  border-color: #2563eb;
+}
+
+.post-form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
   border: none;
   border-radius: 6px;
-  background-color: #2563eb;
+  background: #2563eb;
   color: white;
+  font-size: 16px;
   cursor: pointer;
 }
 
-button:disabled {
-  opacity: 0.6;
+.post-form button:disabled {
+  background: #9ca3af;
   cursor: not-allowed;
 }
 
-.post {
-  margin: 12px 0;
-  padding: 14px;
-  background-color: white;
-  border-radius: 8px;
+.success-message {
+  color: #15803d;
+  font-weight: bold;
 }
 
-.post h3 {
-  margin-top: 0;
-  text-transform: capitalize;
+.error-message {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  .app-container {
+    padding: 14px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 }
